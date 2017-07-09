@@ -1,0 +1,12 @@
+[04-Jul-2017 18:20:25 Africa/Nairobi] PHP Deprecated:  mysql_query(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:20:25 Africa/Nairobi] PHP Warning:  mysql_query(): Access denied for user 'qetcoke'@'localhost' (using password: NO) in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:20:25 Africa/Nairobi] PHP Warning:  mysql_query(): A link to the server could not be established in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:20:25 Africa/Nairobi] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/qetcoke/public_html/eazzyparkapp/login.php on line 9
+[04-Jul-2017 18:20:59 Africa/Nairobi] PHP Deprecated:  mysql_query(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:20:59 Africa/Nairobi] PHP Warning:  mysql_query(): Access denied for user 'qetcoke'@'localhost' (using password: NO) in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:20:59 Africa/Nairobi] PHP Warning:  mysql_query(): A link to the server could not be established in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:20:59 Africa/Nairobi] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/qetcoke/public_html/eazzyparkapp/login.php on line 9
+[04-Jul-2017 18:21:04 Africa/Nairobi] PHP Deprecated:  mysql_query(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:21:04 Africa/Nairobi] PHP Warning:  mysql_query(): Access denied for user 'qetcoke'@'localhost' (using password: NO) in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:21:04 Africa/Nairobi] PHP Warning:  mysql_query(): A link to the server could not be established in /home/qetcoke/public_html/eazzyparkapp/login.php on line 8
+[04-Jul-2017 18:21:04 Africa/Nairobi] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/qetcoke/public_html/eazzyparkapp/login.php on line 9

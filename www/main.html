@@ -1,0 +1,155 @@
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+ var username = window.localStorage.getItem('ls_userid');
+  window.onload = setupRefresh;
+  var timer=0;
+  function setupRefresh(){
+  timer=setInterval("auto_logout();",60000);
+  }
+  
+
+function reset_interval(){
+  if(timer!=0){
+    clearInterval(timer);
+    timer=0;
+    timer=setInterval("auto_logout();",60000);
+  }
+}
+function auto_logout(){
+  var b = $('#remote').val();
+   //window.location.href = "main.html";
+}
+</script>
+<script type="text/javascript">    
+    $(document).ready(function() {
+        var url = "http://192.168.43.41/eazzyparkapp/www/bridge.php?id=1&user="+username;
+        $.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+                var usertype = field.position;window.localStorage.setItem('ls_usertype',usertype);
+                var fullname = field.fullname;window.localStorage.setItem('ls_fullname',fullname);
+                //alert(usertype)
+            });
+        });
+
+
+
+       var rights = new Array; rights.push(901);rights.push(902);
+       var usertype = window.localStorage.getItem('ls_usertype');
+        var url = "http://192.168.43.41/eazzyparkapp/www/bridge.php?id=2";
+        $.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+                var code = field.AccessCode;
+                var res = field[usertype];
+                if(res=='YES'){
+                 rights.push(code);
+                }
+
+             });
+
+           localStorage.setItem("rights", JSON.stringify(rights));
+        });
+
+
+        var url = "http://192.168.43.41/eazzyparkapp/www/bridge.php?id=3";
+        $.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+              window.localStorage.setItem('comname',field.CompanyName);
+              window.localStorage.setItem('comtel',field.Tel);
+              window.localStorage.setItem('comadd',field.Address);
+              window.localStorage.setItem('comweb',field.Website);
+              window.localStorage.setItem('comemail',field.Email);
+              window.localStorage.setItem('comlogo',field.Logo);
+
+              
+            });
+        });
+
+       
+
+    });
+
+
+    </script>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="images/apple-touch-startup-image-640x1096.png">
+<title>EazzyPark-Smart Parking System</title>
+<link rel="stylesheet" href="css/framework7.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/blue.css">
+<link rel="stylesheet" href="css/jqueryui.css">
+<link rel="shortcut icon" href="images/favicon.png">
+<link type="text/css" rel="stylesheet" href="css/swipebox.css" />
+<link type="text/css" rel="stylesheet" href="css/animations.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,900' rel='stylesheet' type='text/css'>
+<link href="css/sweetalert.css" rel="stylesheet" type="text/css">
+</head>
+<body id="mobile_wrap" onmousemove="reset_interval()" onclick="reset_interval()" onkeypress="reset_interval()" onscroll="reset_interval()">
+
+    <div class="statusbar-overlay"></div>
+
+    <div class="panel-overlay"></div>
+
+
+
+    <div class="views">
+
+      <div class="view view-main">
+
+        <div class="pages">
+
+          <div data-page="index" class="page homepage" >
+            <div class="page-content">
+          <div class="logo"><h1>EazzyPark</h1><span><br/>Smart Vehicle Parking System</span></div>
+                       <nav class="main-nav">
+
+                        <ul>
+                         
+                          <li id="rights101" style="display:none"><a href="newticket.html"><img src="images/icons/blue/car.png" alt="" title="" /><span>TICKETS</span></a></li>
+                          <li id="rights102" style="display:none"><a href="bridge.php?id=2"><img src="images/icons/blue/cart.png" alt="" title="" /><span>PAYMENTS</span></a></li>
+                          <li id="rights108" style="display:none"><a href="bridge.php?id=7"><img src="images/icons/blue/map.png" alt="" title="" /><span>RESERVE PARKING</span></a></li>
+                          <li id="rights109" style="display:none"><a href="bridge.php?id=8"><img src="images/icons/blue/favorites.png" alt="" title="" /><span>RESERVED VEHICLES</span></a></li>
+                          <li id="rights103" style="display:none"><a href="bridge.php?id=4"><img src="images/icons/blue/rocket.png" alt="" title="" /><span>DASHBOARD</span></a></li>
+                          <li id="rights104" style="display:none"><a href="bridge.php?id=6"><img src="images/icons/blue/form.png" alt="" title="" /><span>REPORTS</span></a></li>
+                          <li  id="rights901" style="display:none"><a href="bridge.php?id=5"><img src="images/icons/blue/settings.png" alt="" title="" /><span>SETTINGS</span></a></li>
+                          <li  id="rights902" style="display:none"><a href="#" onclick="logout()"><img src="images/icons/blue/logout.png" alt="" title="" /><span>LOGOUT</span></a></li>
+                          </ul>
+                      </nav> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+
+
+  </body>
+</html>
+
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script src="js/jquery.validate.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/framework7.js"></script>
+<script type="text/javascript" src="js/my-app.js"></script>
+<script type="text/javascript" src="js/jquery.swipebox.js"></script>
+<script type="text/javascript" src="js/sweetalert.js"></script>
+<script type="text/javascript" src="js/canvas.js"></script>
+<script>
+var rights = JSON.parse(localStorage.getItem("rights"));
+var arrayLength = rights.length;
+for (var i = 0; i < arrayLength; i++) {
+  var code=rights[i];
+  $("#rights"+code).show();
+    //Do something
+}
+</script>

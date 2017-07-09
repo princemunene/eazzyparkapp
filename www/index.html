@@ -1,0 +1,132 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="images/apple-touch-startup-image-640x1096.png">
+<title>EazzyPark-Smart Parking System</title>
+<link rel="stylesheet" href="css/framework7.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/blue.css">
+<link rel="shortcut icon" href="images/favicon.png">
+<link type="text/css" rel="stylesheet" href="css/swipebox.css" />
+<link type="text/css" rel="stylesheet" href="css/animations.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,900' rel='stylesheet' type='text/css'>
+<link href="css/sweetalert.css" rel="stylesheet" type="text/css">
+</head>
+<body id="mobile_wrap">
+
+    <div class="statusbar-overlay"></div>
+
+    <div class="panel-overlay"></div>
+
+    
+    
+
+    <div class="views">
+
+      <div class="view view-main">
+
+        <div class="pages">
+
+          <div data-page="index" class="page homepage">
+            <div class="page-content">
+					<div class="logo"><h1>EazzyPark</h1><span><br/>Smart Vehicle Parking System</span></div>
+                       
+               <div class="loginform" style="margin-top:12%">
+                <form id="LoginForm" method="post">
+                <div class="form_row">
+                <div class="form_row_icon"><img src="images/icons/blue/user.png" alt="" title="" /></div>
+                <input type="text" id="username" name="Username" value="" class="form_input required" placeholder="User" style="font-size:30px" />
+                </div>
+                <div class="form_row">
+                <div class="form_row_icon"><img src="images/icons/blue/lock.png" alt="" title="" /></div>
+                <input type="password"  id="passwd"  name="Password" value="" class="form_input required" placeholder="Password" style="font-size:30px"  />
+                </div>
+                <input type="button" name="submit"  onclick="login()" class="form_submit" id="submit" value="SIGN IN" />
+                </form>
+                 <div class="signup_bottom">
+                 <div id="message" style="float:right;width:40px"></div>
+                </div>
+            </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+   </body>
+    
+ 
+   
+    
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script src="js/jquery.validate.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/framework7.js"></script>
+<script type="text/javascript" src="js/my-app.js"></script>
+<script type="text/javascript" src="js/jquery.swipebox.js"></script>
+<script type="text/javascript" src="js/email.js"></script>
+<script type="text/javascript" src="js/sweetalert.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$('#username').focus();
+});
+document.onkeydown = keydown;
+function keydown(evt){
+if (!evt) evt = event;
+if (evt.keyCode==13){ //enter
+if($('#username').val!=''&& $('#passwd').val()!=''){
+login();
+}else{
+$('#passwd').focus();
+}
+}
+}
+
+function login(){
+var username=$('#username').val();
+var passwd=$('#passwd').val();
+if(username==''){
+swal("Error", "Enter your username!", "error");
+}
+else  if(passwd==''){
+swal("Error", "Enter your password!", "error");
+}
+else {
+$('#message').html('<img id="img-spinner" src="images/load.gif" style="margin-top:20px" alt="Loading"/>');
+$.ajax({
+  type: "POST",
+   url: "http://192.168.43.41/eazzyparkapp/www/login.php",
+  crossDomain: true,
+  cache: false,
+  data:{username:username, passwd:passwd},
+  success:function(data){
+  if(data==0){
+  $('#message').html('');
+
+  }else $('#message').html(data);
+
+if(data==1){
+window.localStorage.setItem('ls_userid',username);
+window.location.href = "main.html";
+}else{
+swal("Error", "Incorrect Login Credentials!", "error");
+}
+}
+});
+}
+}
+
+
+</script>
+
+
+
+</html>
