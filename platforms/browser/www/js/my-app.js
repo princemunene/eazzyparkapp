@@ -450,7 +450,7 @@ function saveticket(){
 
 			$("#parkdiv").html('<img id="img-spinner" src="images/load.gif" style="" alt="Loading"/>');
 			$.ajax({
-			url:'http://192.168.43.41/eazzyparkapp/www/data.php',
+			url:'http://qet.co.ke/eazzyparkapp/www/data.php',
 			data:{id:1,user:username,regn:regn,naivas:naivas,reserved:reserved},
 			success:function(data){
 			$('#parkdiv').html(data);

@@ -40,7 +40,7 @@
 
     $(document).ready(function() {
 
-        var url = "http://192.168.43.41/eazzyparkapp/www/bridge.php?id=4&rcptno="+ticketno;
+        var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=4&rcptno="+ticketno;
         $.getJSON(url, function(result) {
             console.log(result);
             $.each(result, function(i, field) {

@@ -1,6 +1,4 @@
- <?php 
-    header("Access-Control-Allow-Origin: *");
- 	$server='localhost';
-	$db = mysql_connect($server, 'root', 'admin@123+',true) or die(mysql_error());
-	mysql_select_db('eazzypark',$db);
+ <?php
+ header("Access-Control-Allow-Origin: *");
+ $con = mysqli_connect('localhost','qetcoke_qet', 'qet@123+',"qetcoke_phonegap") or die(mysql_error());
 ?>

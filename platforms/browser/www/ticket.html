@@ -40,12 +40,15 @@
 
     $(document).ready(function() {
 
-        var url = "http://192.168.43.41/eazzyparkapp/www/bridge.php?id=4&rcptno="+ticketno;
+        var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=4&rcptno="+ticketno;
         $.getJSON(url, function(result) {
             console.log(result);
             $.each(result, function(i, field) {
-                var usertype = field.position;window.localStorage.setItem('ls_usertype',usertype);
-                var fullname = field.fullname;window.localStorage.setItem('ls_fullname',fullname);
+              window.localStorage.setItem('checkindate',field.checkindate);
+              window.localStorage.setItem('checkintime',field.checkintime);
+              window.localStorage.setItem('regn',field.regn);
+              window.localStorage.setItem('checkinuser',field.checkinuser);
+             
                 //alert(usertype)
             });
         });
@@ -73,13 +76,13 @@ font-family: Merchant; font-size:18px; font-weight:normal; text-transform:upperc
 <p style="text-align:center;   font-weight:normal; margin:0 0 0 0px;font-size:22PX">PARKING TICKET</p>
 <div style="clear:both;border-bottom:1px dashed #333;margin-bottom:5px"></div>
 
-<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Ticket No: <b><?php  echo $rcptno ?></b></p>
-<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Check-in Date: <b><?php  echo stripslashes($row['checkindate']) ?></b></p>
-<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Check-in Time: <b><?php  echo stripslashes($row['checkintime']) ?></b></p>
-<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:28px">Regn: <b><?php  echo stripslashes($row['regn']) ?></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Ticket No: <b><script>document.write(ticketno)</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Check-in Date: <b><script>document.write(window.localStorage.getItem('checkindate'))</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Check-in Time: <b><script>document.write(window.localStorage.getItem('checkintime'))</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:28px">Regn: <b><script>document.write(window.localStorage.getItem('regn'))</script></b></p>
 <div style="clear:both;border-bottom:1px dashed #333;margin-top:5px;margin-bottom:5px"></div>
 
-<p style="text-align:center;   font-weight:normal; margin:0 0 0 0px; font-size:17px">Officer: <b><?php  echo getuser($row['checkinuser']) ?></b></p>
+<p style="text-align:center;   font-weight:normal; margin:0 0 0 0px; font-size:17px">Officer: <b><script>document.write(window.localStorage.getItem('checkinuser'))</script></b></p>
 <p style="text-align:center;font-size:17px; font-weight:normal;margin:0 0 0 0px">System Developers: QET SYSTEMS</p>
 <div style="clear:both;border-bottom:1px dashed #333"></div>
 </div>

@@ -22,7 +22,7 @@ function auto_logout(){
 </script>
 <script type="text/javascript">    
     $(document).ready(function() {
-        var url = "http://192.168.43.41/eazzyparkapp/www/bridge.php?id=1&user="+username;
+        var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=1&user="+username;
         $.getJSON(url, function(result) {
             console.log(result);
             $.each(result, function(i, field) {
@@ -36,7 +36,7 @@ function auto_logout(){
 
        var rights = new Array; rights.push(901);rights.push(902);
        var usertype = window.localStorage.getItem('ls_usertype');
-        var url = "http://192.168.43.41/eazzyparkapp/www/bridge.php?id=2";
+        var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=2";
         $.getJSON(url, function(result) {
             console.log(result);
             $.each(result, function(i, field) {
@@ -52,7 +52,7 @@ function auto_logout(){
         });
 
 
-        var url = "http://192.168.43.41/eazzyparkapp/www/bridge.php?id=3";
+        var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=3";
         $.getJSON(url, function(result) {
             console.log(result);
             $.each(result, function(i, field) {
