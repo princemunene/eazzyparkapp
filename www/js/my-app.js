@@ -1,4 +1,21 @@
+// Convert numbers to words
+// copyright 25th July 2006, by Stephen Chapman http://javascript.about.com
+// permission to use this Javascript on your web page is granted
+// provided that all of the code (including this copyright notice) is
+// used exactly as shown (you can change the numbering system if you wish)
 
+// American Numbering System
+var th = ['','thousand','million', 'billion','trillion'];
+// uncomment this line for English Number System
+// var th = ['','thousand','million', 'milliard','billion'];
+
+var dg = ['zero','one','two','three','four', 'five','six','seven','eight','nine']; var tn = ['ten','eleven','twelve','thirteen', 'fourteen','fifteen','sixteen', 'seventeen','eighteen','nineteen']; var tw = ['twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety']; function toWords(s){s = s.toString(); s = s.replace(/[\, ]/g,''); if (s != parseFloat(s)) return 'not a number'; var x = s.indexOf('.'); if (x == -1) x = s.length; if (x > 15) return 'too big'; var n = s.split(''); var str = ''; var sk = 0; for (var i=0; i < x; i++) {if ((x-i)%3==2) {if (n[i] == '1') {str += tn[Number(n[i+1])] + ' '; i++; sk=1;} else if (n[i]!=0) {str += tw[n[i]-2] + ' ';sk=1;}} else if (n[i]!=0) {str += dg[n[i]] +' '; if ((x-i)%3==0) str += 'hundred ';sk=1;} if ((x-i)%3==1) {if (sk) str += th[(x-i-1)/3] + ' ';sk=0;}} if (x != s.length) {var y = s.length; str += 'point '; for (var i=x+1; i<y; i++) str += dg[n[i]] +' ';} return str.replace(/\s+/g,' ');}
+
+// Convert figures to money values
+Number.prototype.formatMoney = function(c, d, t){
+var n = this, c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+ }; 
 // Initialize your app
 var myApp = new Framework7({
     animateNavBackIcon: true,
@@ -103,9 +120,8 @@ myApp.onPageInit('index', function (page) {
   
 })
 
-myApp.onPageInit('blog', function (page) {
-								   
-		$(".posts li").hide();	
+function loadposts(){
+	 $(".posts li").hide();	
 		size_li = $(".posts li").size();
 		x=4;
 		$('.posts li:lt('+x+')').show();
@@ -131,8 +147,61 @@ myApp.onPageInit('blog', function (page) {
 				setTimeout(function() {
 					$(item).animate({'right':'0px', 'opacity':1},800,"easeInOutCirc");
 				}, index*175);
-		});		
+		});	
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+function setpaymentticket(ticketno){
+	localStorage.setItem("paymentticket",ticketno);
+}
+myApp.onPageInit('blog', function (page) {
+var param = '';
+var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=5&param="+param;
+        $.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+                var regn = field.regn;
+                 xx='';
+                 if(field.reserved==1){xx='background:#37bc9b';}
+               	$(".post_entry").append("<a onclick='setpaymentticket("+field.ticketno+")' href='payments2.html'><div class='post_date' style='cursor:pointer; "+ xx + "'><span class='day'>" + field.regn + "</span><span class='month' style='color:#333'>" + field.checkindate + field.checkintime + "</span></div></a>");
+            });
+
+        loadposts()
+        $('#searchtickets').focus();
+
+        });	
+
+
+
 })
+
+myApp.onPageInit('features', function (page) {
+ $('#regn').focus();
+})
+
+
+
+myApp.onPageInit('payment', function (page) {
+
+var ticketno = window.localStorage.getItem('paymentticket');
+	     $.ajax({
+			url:'http://qet.co.ke/eazzyparkapp/www/bridge.php',
+			data:{id:6,ticketno:ticketno},
+			success:function(data){
+			$('#recdiv').html(data);
+			}
+			});
+       
+})
+
 
 myApp.onPageInit('blogsingle', function (page) {
 										 
@@ -453,6 +522,8 @@ function saveticket(){
 			url:'http://qet.co.ke/eazzyparkapp/www/data.php',
 			data:{id:1,user:username,regn:regn,naivas:naivas,reserved:reserved},
 			success:function(data){
+			//data=JSON.parse(data);
+			//window.location.href = "ticket.html";
 			$('#parkdiv').html(data);
 			}
 			});
@@ -474,9 +545,18 @@ function searchtickets(e){
 		var param = $('#searchtickets').val();
 		var enterKey = 13;
         if (e.which == enterKey&&param!=''){
+        	$(".post_entry").html('');
+        	var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=5&param="+param;
+        	$.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+                var regn = field.regn;
+               	$(".post_entry").append("<a href='payments2.html?id=3&ticketno=" + field.ticketno + "'><div class='post_date' style='cursor:pointer'><span class='day'>" + field.regn + "</span><span class='month' style='color:#333'>" + field.checkindate + field.checkintime + "</span></div></a>");
+            });
 
-        	$("#currtick").prepend('<a id="clicker" href="bridge.php?id=2&param=' + param + '"><span></span></a>');
-        	$("#clicker").find('span').trigger("click");
+            loadposts()
+            $('#searchtickets').focus();
+           });
            
 		}
 }
@@ -492,7 +572,8 @@ function searchreserve(e){
 		}
 }
 
-function savereceipt(ticketno){
+function savereceipt(){
+	var ticketno = window.localStorage.getItem('paymentticket');
 	var checkoutdate=$('#checkoutdate').val();
 	var checkouttime=$('#checkouttime').val();
 	var checkouttimestamp=$('#checkouttimestamp').val();
@@ -513,8 +594,8 @@ function savereceipt(ticketno){
 
 			$("#recdiv").html('<img id="img-spinner" src="images/load.gif" style="" alt="Loading"/>');
 			$.ajax({
-			url:'data.php',
-			data:{id:2,ticketno:ticketno,parkcateg:parkcateg,checkoutdate:checkoutdate,checkouttime:checkouttime,checkouttimestamp:checkouttimestamp,timediff:timediff,amount:amount},
+			url:'http://qet.co.ke/eazzyparkapp/www/data.php',
+			data:{id:2,ticketno:ticketno,parkcateg:parkcateg,checkoutdate:checkoutdate,checkouttime:checkouttime,checkouttimestamp:checkouttimestamp,timediff:timediff,amount:amount,user:window.localStorage.getItem('ls_userid')},
 			success:function(data){
 			$('#recdiv').html(data);
 			}

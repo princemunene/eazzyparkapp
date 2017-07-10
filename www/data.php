@@ -1,4 +1,5 @@
 <?php include('db_fns.php'); 
+include('functions.php');  
 $id=$_GET['id'];
 
 
@@ -18,6 +19,7 @@ if($reserved==1){
 	if($num_results==0){
 
 		echo '<script>swal("Error", "The vehicle does not have a current reservation!", "error");</script>';
+		exit;
 
 	}
 
@@ -33,9 +35,15 @@ $result = mysql_query("INSERT INTO parking (id, ticketno, regn, naivas, checkind
 if($result){
 $resulta = mysql_query("insert into log values('0','".$username." generates ticket no-".$ticketno."','".$username."','".date('YmdHi')."','".date('H:i')."','".date('d/m/Y')."','1')");                         
 $resultb = mysql_query("insert into vehiclelog values('0','".$regn." checks into the parking lot using ticket no-".$ticketno."','".$regn."','".date('YmdHi')."','".date('H:i')."','".date('d/m/Y')."','1')");                         
-
-echo"<script>window.location.href = \"main.html\";</script>";
-//echo"<script>window.open('report.html?id=1&rcptno=".$ticketno."');</script>";
+$result =mysql_query("select * from parking where ticketno='".$ticketno."' limit 0,1");
+while ($row=mysql_fetch_array($result)){
+ $data[]=$row;
+}
+$data=json_encode($data);
+echo"<script>
+window.localStorage.setItem('ticketdata',JSON.stringify(".$data."));
+window.location.href = \"ticket.html\";
+</script>";
 }
 else{
 	echo '<script>swal("Error", "Your Ticket has not been saved.", "error");</script>';
@@ -49,7 +57,7 @@ break;
 case 2:
 
 $ticketno=$_GET['ticketno'];
-
+$username=$_GET['user'];
 $resulty = mysql_query("select * from parking order by rcptno desc limit 0,1");
 $rowy=mysql_fetch_array($resulty);
 $rcptno=stripslashes($rowy['rcptno'])+1;
@@ -60,13 +68,21 @@ $regn=stripslashes($rowy['regn']);
 
 
 $result = mysql_query("update parking set rcptno='".$rcptno."',parkcateg='".$_GET['parkcateg']."',checkoutdate='".$_GET['checkoutdate']."',checkouttime='".$_GET['checkouttime']."',checkoutstamp='".getstamp($_GET['checkoutdate'])."',checkouttimestamp='".$_GET['checkouttimestamp']."',checkoutuser='".$username."',timediff='".$_GET['timediff']."',amount='".$_GET['amount']."',paymode='Cash',status=2 WHERE ticketno='".$ticketno."'")  or die (mysql_error());
-                                    
+
+
 if($result){
 $resulta = mysql_query("insert into log values('0','".$username." generates receipt no-".$rcptno."','".$username."','".date('YmdHi')."','".date('H:i')."','".date('d/m/Y')."','1')");                         
 $resultb = mysql_query("insert into vehiclelog values('0','".$regn." checks out of the parking lot using receipt no-".$rcptno."','".$regn."','".date('YmdHi')."','".date('H:i')."','".date('d/m/Y')."','1')");                         
 
-echo"<script>window.location.href = \"main.php\";</script>";
-echo"<script>window.open('report.php?id=2&rcptno=".$rcptno."');</script>";
+$result =mysql_query("select * from parking where rcptno='".$rcptno."' limit 0,1");
+while ($row=mysql_fetch_array($result)){
+ $data[]=$row;
+}
+$data=json_encode($data);
+echo"<script>
+window.localStorage.setItem('receiptdata',JSON.stringify(".$data."));
+window.location.href = \"receipt.html\";
+</script>";
 }
 else{
     echo '<script>swal("Error", "Your Receipt has not been saved.", "error");</script>';

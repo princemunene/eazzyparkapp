@@ -34,8 +34,7 @@ if($result){
 $resulta = mysql_query("insert into log values('0','".$username." generates ticket no-".$ticketno."','".$username."','".date('YmdHi')."','".date('H:i')."','".date('d/m/Y')."','1')");                         
 $resultb = mysql_query("insert into vehiclelog values('0','".$regn." checks into the parking lot using ticket no-".$ticketno."','".$regn."','".date('YmdHi')."','".date('H:i')."','".date('d/m/Y')."','1')");                         
 
-echo"<script>window.location.href = \"main.html\";</script>";
-//echo"<script>window.open('report.html?id=1&rcptno=".$ticketno."');</script>";
+echo"<script>window.location.href = \"ticket.html?id=2&rcptno=".$ticketno.";\";</script>";
 }
 else{
 	echo '<script>swal("Error", "Your Ticket has not been saved.", "error");</script>';

@@ -1,11 +1,13 @@
- <link rel="shortcut icon" href="images/favicon.png">
-<link rel="stylesheet" href="css/framework7.css">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="css/blue.css">
+ <head>
+  <title>Cash Payment Receipt</title>
+<link rel="shortcut icon" href="images/favicon.png">
+<link rel="stylesheet" href="css/framework7.css?version=3.0">
+<link rel="stylesheet" href="style.css?version=3.0">
+<link rel="stylesheet" href="css/blue.css?version=3.0">
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,900' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
-<script type="text/javascript" src="js/my-app.js"></script>
+<script type="text/javascript" src="js/jquery-1.10.1.min.js?version=3.0"></script>
 <script src="js/excellentexport.js"></script>
+<script type="text/javascript" src="js/my-app.js"></script>
 <script type="text/javascript" src="js/connectcode-javascript-code39.js"></script>
 <style>
 @media print {
@@ -19,39 +21,21 @@
 
   <script type="text/javascript"> 
 
-  function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-  }
-
-  var ticketno = getParameterByName('rcptno');
-
- 
-
-    $(document).ready(function() {
-
-        var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=4&rcptno="+ticketno;
-        $.getJSON(url, function(result) {
-            console.log(result);
-            $.each(result, function(i, field) {
-              window.localStorage.setItem('checkindate',field.checkindate);
-              window.localStorage.setItem('checkintime',field.checkintime);
-              window.localStorage.setItem('regn',field.regn);
-              window.localStorage.setItem('checkinuser',field.checkinuser);
-             
-                //alert(usertype)
-            });
+    var result=JSON.parse(window.localStorage.getItem('receiptdata'));
+    
+     $.each(result, function(i, field) {
+        regn=field.regn;
+        rcptno=field.rcptno;
+        checkindate=field.checkindate;
+        checkintime=field.checkintime;
+        checkoutdate=field.checkoutdate;
+        checkouttime=field.checkouttime;
+        checkoutuser=field.checkoutuser;
+        timediff=field.timediff;
+        amount=Math.round((field.amount),2);
+        
         });
-
-          
-      });
-
-   
+        
   </script>
 
 <script type="text/javascript">
@@ -71,7 +55,7 @@
 }}
 </script>
  <div class="pages">
-  <div data-page="features" class="page no-toolbar no-navbar">
+  <div  class="page no-toolbar no-navbar">
     <div class="page-content">
     
      <div class="navbarpages">
@@ -81,7 +65,7 @@
      </div>
      
      <div id="pages_maincontent">
-      <h2 class="page_title">NEW PARKING TICKET</h2>
+      <h2 class="page_title">RECEIPT PRINT OUT</h2>
                      
                      <div class="page_content">
                      
@@ -97,22 +81,28 @@ font-family: Merchant; font-size:18px; font-weight:normal; text-transform:upperc
 
 <div style="width:270px;min-height:200px; border:0px solid #333" id="selectable" onclick="CopyToClipboard('selectable')">
 <div style="clear:both; margin-bottom:10px"></div>
-<img src="images/logo.png" style="max-height:75px; margin:0px 5px 5px 75px"/>
+<p style="text-align:center;font-size:40px; font-weight:bold; margin:0 0 0 0px">PAID</p>
+<div style="clear:both"></div>
+<img src="images/logo.png" style="max-height:75px; margin:0px 5px 5px 90px"/>
 <div style="clear:both"></div>
 <p style="text-align:center;font-size:26px; font-weight:normal; margin:0 0 0 0px"><script>document.write(window.localStorage.getItem('comname'))</script></p>
 <div style="clear:both;"></div>
 <p style="text-align:center;   font-weight:normal; margin:0 0 0 0px; font-size:18px">P.O Box <script>document.write(window.localStorage.getItem('comadd'))</script><br/>Tel: <script>document.write(window.localStorage.getItem('comtel'))</script></p><div style="clear:both"></div>
-<div style="clear:both;border-bottom:1px dashed #333"></div>
-<p style="text-align:center;   font-weight:normal; margin:0 0 0 0px;font-size:22PX">PARKING TICKET</p>
+<div style="clear:both;border-bottom:1px dashed #333;margin-bottom:5px"></div>
+<p style="text-align:center;   font-weight:normal; margin:0 0 0 0px;font-size:22PX;padding-bottom:0">CASH PAYMENT RECEIPT</p>
 <div style="clear:both;border-bottom:1px dashed #333;margin-bottom:5px"></div>
 
-<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Ticket No: <b><script>document.write(ticketno)</script></b></p>
-<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Check-in Date: <b><script>document.write(window.localStorage.getItem('checkindate'))</script></b></p>
-<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Check-in Time: <b><script>document.write(window.localStorage.getItem('checkintime'))</script></b></p>
-<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:28px">Regn: <b><script>document.write(window.localStorage.getItem('regn'))</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Receipt No: <b><script>document.write(rcptno)</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Check-in Time: <b><script>document.write(checkindate)</script> <script>document.write(checkintime)</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">CheckOut Time: <b><script>document.write(checkoutdate)</script> <script>document.write(checkouttime)</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Time Spent: <b><script>document.write(timediff)</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">Amount Paid: <b><script>document.writeln((amount).formatMoney(2, '.', ','));</script></b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:18px">In Words: <b><script>document.writeln(toWords(amount));</script>KES only.</b></p>
+<p style="text-align:left;   font-weight:normal; margin:0 0 0 10px; font-size:28px">Regn: <b><script>document.write(regn)</script></b></p>
 <div style="clear:both;border-bottom:1px dashed #333;margin-top:5px;margin-bottom:5px"></div>
 
-<p style="text-align:center;   font-weight:normal; margin:0 0 0 0px; font-size:17px">Officer: <b><script>document.write(window.localStorage.getItem('checkinuser'))</script></b></p>
+
+<p style="text-align:center;   font-weight:normal; margin:0 0 0 0px; font-size:17px">Officer: <b><script>document.write(checkoutuser)</script></b></p>
 <p style="text-align:center;font-size:17px; font-weight:normal;margin:0 0 0 0px">System Developers: QET SYSTEMS</p>
 <div style="clear:both;border-bottom:1px dashed #333"></div>
 </div>
