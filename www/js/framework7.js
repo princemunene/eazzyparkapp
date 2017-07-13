@@ -28,12 +28,12 @@
     
         // Default Parameters
         app.params = {
-            cache: true,
+            cache: false,
             cacheIgnore: [],
-            cacheIgnoreGetParameters: false,
-            cacheDuration: 1000 * 60 * 10, // Ten minutes 
+            cacheIgnoreGetParameters: true,
+            cacheDuration: 0, // Ten minutes 1000 * 60 * 10
             preloadPreviousPage: true,
-            uniqueHistory: false,
+            uniqueHistory: true,
             uniqueHistoryIgnoreGetParameters: false,
             dynamicPageUrl: 'content-{{index}}',
             allowDuplicateUrls: false,

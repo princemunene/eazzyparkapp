@@ -228,11 +228,12 @@ $from=$_GET['from'];
 $to=$_GET['to'];
 $unitno=$_GET['unitno'];
 $amount=$_GET['amount'];
+$username=$_GET['user'];
 
 $result = mysql_query("insert into reserve values('0','".$regn."','".$tenant."','".$unitno."','".$from."','".getstamp($from)."','".$to."','".getstamp($to)."','".$amount."','".date('d/m/Y')."','".date('Ymd')."',1,'".$username."')") or die (mysql_error());        
 if($result){
 $resulta = mysql_query("insert into log values('0','".$username." inserts reserves vehicle parking.Regn:".$regn."','".$username."','".date('YmdHi')."','".date('H:i')."','".date('d/m/Y')."','1')");   
-echo"<script>window.location.href = \"main.php\";</script>";
+echo"<script>setTimeout(function() {window.location.href = \"main.html\";},2000);</script>";
 echo '<script>swal("Success!", "Vehicle Reserved!", "success");</script>';
 }
 else {

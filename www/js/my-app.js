@@ -20,7 +20,7 @@ var n = this, c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, 
 var myApp = new Framework7({
     animateNavBackIcon: true,
     precompileTemplates: true,
-	swipeBackPage: false,
+	swipeBackPage: true,
 	swipeBackPageThreshold: 1,
 	pushState: false,
     template7Pages: true
@@ -183,10 +183,133 @@ var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=5&param="+param;
 
 })
 
+
+
+myApp.onPageInit('blogger', function (page)  {
+
+	
+
+	loadposts()
+	dashdata=window.localStorage.getItem("dashdata");
+	var parts=dashdata.split('-',6);
+	$('#dash1').html(parts[0]);
+	$('#dash2').html(parts[1]);
+	$('#dash3').html(parts[2]);
+	$('#dash4').html(parts[3]);
+	$('#dash5').html(parts[4]);
+	$('#dash6').html(parts[5]);
+	 
+
+
+	$('#dash1').html();
+	var linearr = (new Function("return [" + window.localStorage.getItem("linearr")+ "];")());
+	var bararr = (new Function("return [" + window.localStorage.getItem("bararr")+ "];")());
+	var dougnut = (new Function("return [" + window.localStorage.getItem("dougnut")+ "];")());
+	
+	
+	//line chart
+	var chart = new CanvasJS.Chart("chartContainer",
+    {
+      theme: "theme2",
+      title:{
+        text: "Tickets(Past 10 Days)"
+      },
+      animationEnabled: true,
+     
+      axisY:{
+        includeZero: false
+        
+      },
+      data: [
+      {        
+        type: "line",
+        //lineThickness: 3,        
+        dataPoints: linearr
+      }
+      
+      
+      ]
+    });
+
+	chart.render();
+
+	
+
+	
+
+	
+	//bar chart
+
+	var chart2 = new CanvasJS.Chart("chartContainer2",
+    {
+      title:{
+        text: "Income (Past 10 Days)"    
+      },
+      animationEnabled: true,
+      axisY: {
+        title: "Income(KES)"
+      },
+      legend: {
+        verticalAlign: "bottom",
+        horizontalAlign: "center"
+      },
+      theme: "theme2",
+      data: [
+
+      {        
+        type: "column",  
+        dataPoints: bararr
+      }   
+      ]
+    });
+
+    chart2.render();
+
+    //dougnut
+
+    var chart3 = new CanvasJS.Chart("chartContainer3",
+	{
+		title:{
+			text: "Parking Rate Category Share",
+			fontFamily: "Impact",
+			fontWeight: "normal"
+		},
+
+		legend:{
+			verticalAlign: "bottom",
+			horizontalAlign: "center"
+		},
+		data: [
+		{
+			//startAngle: 45,
+			indexLabelFontSize: 20,
+			indexLabelFontFamily: "Garamond",
+			indexLabelFontColor: "darkgrey",
+			indexLabelLineColor: "darkgrey",
+			indexLabelPlacement: "outside",
+			type: "doughnut",
+			showInLegend: true,
+			dataPoints: dougnut
+		}
+		]
+	});
+
+	chart3.render();
+
+})
 myApp.onPageInit('features', function (page) {
- $('#regn').focus();
+ $('#regn').focus();$( ".datepicker" ).datepicker();	
 })
 
+
+myApp.onPageInit('newticket', function (page) {
+ $('#regn').val( window.localStorage.getItem('reserveregn')).focus();$( ".datepicker" ).datepicker();
+ if(window.localStorage.getItem('reservestatus')==1){$('input[name=reserved]').prop("checked",true);}
+
+ localStorage.setItem("reserveregn",'');
+ localStorage.setItem("reservestatus",0);
+
+})
 
 
 myApp.onPageInit('payment', function (page) {
@@ -200,6 +323,34 @@ var ticketno = window.localStorage.getItem('paymentticket');
 			}
 			});
        
+})
+
+function setreserveregn(regn){
+	
+	localStorage.setItem("reserveregn",regn);
+	localStorage.setItem("reservestatus",1);
+}
+
+myApp.onPageInit('reservation', function (page) {
+var param = '';
+var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=7&param="+param;
+        $.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+                var regn = field.regn;
+                 xx='';
+                 if(field.reserved==1){xx='background:#37bc9b';}
+               	$(".post_entry").append("<a onclick='setreserveregn(\""+field.regn+"\")' href='newticket.html'><div class='post_date' style='cursor:pointer; "+ xx + "'><span class='day'>" + field.regn + "</span><span class='month' style='color:#333'>" + field.from + "-" + field.to + "</span></div></a>");
+            });
+
+        loadposts()
+        $('#searchreserve').focus();
+        $( ".datepicker" ).datepicker();
+
+        });	
+
+
+
 })
 
 
@@ -826,8 +977,8 @@ var amount=$('#amount').val().replace(/[&\/\\#,+()$~%'":*?<>{}]/g,'');
 	else{
 		$("#saveuser").html('<img id="img-spinner" src="images/load.gif" style="" alt="Loading"/>');
 		$.ajax({
-		url:'data.php',
-		data:{id:8,regn:regn,tenant:tenant,unitno:unitno,from:from,to:to,amount:amount},
+		url:'http://qet.co.ke/eazzyparkapp/www/data.php',
+		data:{id:8,user:username,regn:regn,tenant:tenant,unitno:unitno,from:from,to:to,amount:amount},
 		success:function(data){
 		$('#saveuser').html(data);
 		}
