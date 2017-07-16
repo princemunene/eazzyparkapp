@@ -1,6 +1,7 @@
 <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript">
  var username = window.localStorage.getItem('ls_userid');
+ window.localStorage.removeItem("linearr");
   window.onload = setupRefresh;
   var timer=0;
   function setupRefresh(){
@@ -17,10 +18,11 @@ function reset_interval(){
 }
 function auto_logout(){
   var b = $('#remote').val();
-   //window.location.href = "main.html";
+   window.location.href = "index.html";
 }
 </script>
 <script type="text/javascript">    
+
     $(document).ready(function() {
         var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=1&user="+username;
         $.getJSON(url, function(result) {
@@ -66,6 +68,35 @@ function auto_logout(){
               
             });
         });
+
+        
+        var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=9";
+        $.getJSON(url, function(result) {
+         window.localStorage.setItem("linearr", result);
+            //console.log(result);
+        });
+
+         var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=10";
+        $.getJSON(url, function(result) {
+         window.localStorage.setItem("bararr", result);
+            //console.log(result);
+        });
+
+
+         var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=11";
+        $.getJSON(url, function(result) {
+         window.localStorage.setItem("dougnut", result);
+            //console.log(result);
+        });
+
+        var url = "http://qet.co.ke/eazzyparkapp/www/bridge.php?id=8";
+        $.getJSON(url, function(result) {
+            console.log(result);
+            window.localStorage.setItem("dashdata", result);
+           
+      
+        }); 
+
 
        
 
@@ -114,12 +145,12 @@ function auto_logout(){
                         <ul>
                          
                           <li id="rights101" style="display:none"><a href="newticket.html"><img src="images/icons/blue/car.png" alt="" title="" /><span>TICKETS</span></a></li>
-                          <li id="rights102" style="display:none"><a href="bridge.php?id=2"><img src="images/icons/blue/cart.png" alt="" title="" /><span>PAYMENTS</span></a></li>
-                          <li id="rights108" style="display:none"><a href="bridge.php?id=7"><img src="images/icons/blue/map.png" alt="" title="" /><span>RESERVE PARKING</span></a></li>
-                          <li id="rights109" style="display:none"><a href="bridge.php?id=8"><img src="images/icons/blue/favorites.png" alt="" title="" /><span>RESERVED VEHICLES</span></a></li>
-                          <li id="rights103" style="display:none"><a href="bridge.php?id=4"><img src="images/icons/blue/rocket.png" alt="" title="" /><span>DASHBOARD</span></a></li>
-                          <li id="rights104" style="display:none"><a href="bridge.php?id=6"><img src="images/icons/blue/form.png" alt="" title="" /><span>REPORTS</span></a></li>
-                          <li  id="rights901" style="display:none"><a href="bridge.php?id=5"><img src="images/icons/blue/settings.png" alt="" title="" /><span>SETTINGS</span></a></li>
+                          <li id="rights102" style="display:none"><a href="payments1.html"><img src="images/icons/blue/cart.png" alt="" title="" /><span>PAYMENTS</span></a></li>
+                          <li id="rights108" style="display:none"><a href="newreservation.html"><img src="images/icons/blue/map.png" alt="" title="" /><span>RESERVE PARKING</span></a></li>
+                          <li id="rights109" style="display:none"><a href="reservation.html"><img src="images/icons/blue/favorites.png" alt="" title="" /><span>RESERVED VEHICLES</span></a></li>
+                          <li id="rights103" style="display:none"><a href="dashboard.html"><img src="images/icons/blue/rocket.png" alt="" title="" /><span>DASHBOARD</span></a></li>
+                          <!--li id="rights104" style="display:none"><a href="bridge.php?id=6"><img src="images/icons/blue/form.png" alt="" title="" /><span>REPORTS</span></a></li>
+                          <li  id="rights901" style="display:none"><a href="bridge.php?id=5"><img src="images/icons/blue/settings.png" alt="" title="" /><span>SETTINGS</span></a></li-->
                           <li  id="rights902" style="display:none"><a href="#" onclick="logout()"><img src="images/icons/blue/logout.png" alt="" title="" /><span>LOGOUT</span></a></li>
                           </ul>
                       </nav> 
@@ -129,7 +160,7 @@ function auto_logout(){
       </div>
     </div>
     
-    
+   
     
 
 
